@@ -13,7 +13,7 @@ import { Component } from '@angular/core';
       </li>
     </ol>
     <hr>
-    <div>
+    <div *ngIf="selectedRecipe">
       <h3>{{selectedRecipe.title}}</h3>
       <p>Recipe Complete? {{selectedRecipe.cooked}}</p>
       <h3>Edit Recipe</h3>
@@ -24,6 +24,8 @@ import { Component } from '@angular/core';
       <input type="radio" [(ngModel)]="selectedRecipe.priority" [value]="1">1 (Low Priority)<br>
       <input type="radio" [(ngModel)]="selectedRecipe.priority" [value]="2">2 (Medium Priority)<br>
       <input type="radio" [(ngModel)]="selectedRecipe.priority" [value]="3">3 (High Priority)
+      <hr>
+      <button (click)="finishedEditing()">Done</button>
     </div>
   </div>
 
@@ -37,7 +39,7 @@ export class AppComponent {
     new Recipe('Pizza', ['cheese', 'dough', 'olives', 'sauce', 'jalapenos'], 'Cook in Oven.', 1)
   ];
 
-  selectedRecipe: Recipe = this.recipes[0];
+  selectedRecipe: Recipe = null;
 
   editTask(clickedRecipe) {
     this.selectedRecipe = clickedRecipe;
@@ -52,14 +54,18 @@ export class AppComponent {
   }
 
   priorityColor(recipe){
-   if (recipe.priority === 3){
-     return "bg-danger";
-   } else if (recipe.priority === 2) {
-     return  "bg-warning";
-   } else {
-     return "bg-info";
-   }
- }
+    if (recipe.priority === 3){
+      return "bg-danger";
+    } else if (recipe.priority === 2) {
+      return  "bg-warning";
+    } else {
+      return "bg-info";
+    }
+  }
+
+  finishedEditing() {
+    this.selectedRecipe = null;
+  }
 }
 export class Recipe {
   public cooked: boolean = false;
